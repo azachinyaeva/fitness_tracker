@@ -1,5 +1,4 @@
-from typing import ClassVar
-from abc import ABC, abstractmethod
+from typing import ClassVar, Type
 
 
 class InfoMessage:
@@ -18,7 +17,7 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        message: str =  (f'Тип тренировки: {self.training_type}; '
+        message: str = (f'Тип тренировки: {self.training_type}; '
                 f'Длительность: {self.duration:.3f} ч.; '
                 f'Дистанция: {self.distance:.3f} км; '
                 f'Ср. скорость: {self.speed:.3f} км/ч; '
@@ -26,7 +25,7 @@ class InfoMessage:
         return message
 
 
-class Training (ABC):
+class Training:
     M_IN_KM: ClassVar[int] = 1000  # метров в одном км
     LEN_STEP: ClassVar[float] = 0.65  # метров в одном шаге
 
@@ -40,18 +39,17 @@ class Training (ABC):
 
     def get_distance(self) -> float:
         """ значение дистанции, преодолённой за тренировку """
-        distance = self.action * self.LEN_STEP / self.M_IN_KM
+        distance: float = self.action * self.LEN_STEP / self.M_IN_KM
         return distance
 
     def get_mean_speed(self) -> float:
         """  значение средней скорости движения во время тренировки """
-        mean_speed = self.get_distance() / self.duration
+        mean_speed: float = self.get_distance() / self.duration
         return mean_speed
 
-    @abstractmethod
     def get_spent_calories(self) -> float:
         """  возвращает число потраченных калорий """
-        pass
+        raise NotImplementedError(f'Переопределите метод класса {type(self).__name__} ')
 
     def show_training_info(self) -> InfoMessage:
         """ Информационное сообщение о тренировке """
