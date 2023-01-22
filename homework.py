@@ -1,4 +1,4 @@
-from typing import ClassVar, Type
+from typing import ClassVar
 
 
 class InfoMessage:
